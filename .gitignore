@@ -29,3 +29,4 @@ models/
 outputs/
 *.pkl
 *.joblib
+/api key.txt

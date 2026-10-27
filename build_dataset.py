@@ -72,31 +72,32 @@ def extract_features(signal):
     }
 
 
-rows = []
+if __name__ == "__main__":
+    rows = []
 
-for bearing, label in bearings.items():
-    folder = Path("data") / bearing
-    files = sorted(folder.glob(f"N09_M07_F10_{bearing}_*.mat"))
+    for bearing, label in bearings.items():
+        folder = Path("data") / bearing
+        files = sorted(folder.glob(f"N09_M07_F10_{bearing}_*.mat"))
 
-    print(f"{bearing}: {len(files)} recordings")
+        print(f"{bearing}: {len(files)} recordings")
 
-    for file in files:
-        signal = load_vibration(file)
-        features = extract_features(signal)
+        for file in files:
+            signal = load_vibration(file)
+            features = extract_features(signal)
 
-        rows.append({
-            "bearing_id": bearing,
-            "recording": file.name,
-            "label": label,
-            **features
-        })
+            rows.append({
+                "bearing_id": bearing,
+                "recording": file.name,
+                "label": label,
+                **features
+            })
 
-df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
 
-df.to_csv("bearing_features.csv", index=False)
+    df.to_csv("bearing_features.csv", index=False)
 
-print("\nTotal recordings:", len(df))
-print("\nRecordings per class:")
-print(df.groupby("label").size())
-print("\nFirst five rows:")
-print(df.head())
+    print("\nTotal recordings:", len(df))
+    print("\nRecordings per class:")
+    print(df.groupby("label").size())
+    print("\nFirst five rows:")
+    print(df.head())
