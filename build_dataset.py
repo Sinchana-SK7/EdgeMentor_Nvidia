@@ -80,6 +80,20 @@ if __name__ == "__main__":
         files = sorted(folder.glob(f"N09_M07_F10_{bearing}_*.mat"))
 
         print(f"{bearing}: {len(files)} recordings")
+                # Validate that all 20 recordings are available
+        expected_files = {
+            f"N09_M07_F10_{bearing}_{i}.mat"
+            for i in range(1, 21)
+        }
+
+        actual_files = {file.name for file in files}
+        missing_files = expected_files - actual_files
+
+        if missing_files:
+            raise FileNotFoundError(
+                f"{bearing}: Missing recordings: "
+                f"{sorted(missing_files)}"
+            )
 
         for file in files:
             signal = load_vibration(file)
