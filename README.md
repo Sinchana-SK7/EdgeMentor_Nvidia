@@ -188,64 +188,51 @@ EdgeMentor_Nvidia/
 
 Each bearing directory should contain 20 recordings, numbered 1 through 20.
 
-**3. Generate the feature dataset**
+**3. Generate the feature datasets**
 
-From the project directory, run:
+Run these commands from the project directory, in order:
 
 ```powershell
 python build_dataset.py
+python evaluate_fault_features.py
 ```
 
-The script extracts nine vibration features from each recording and creates:
+The first command generates `bearing_features.csv` containing nine time- and frequency-domain features.
 
-```text
-bearing_features.csv
-```
+The second command extracts six additional physics-based envelope-spectrum features and creates `bearing_fault_features.csv`. It also runs feature-set evaluation experiments.
 
-Expected output:
+The current classifier in `edgementor.py` loads `bearing_fault_features.csv`, so **both commands are required** before launching the dashboard.
 
-```text
-Total recordings: 180
+**4. Configure Nebius Token Factory**
 
-Recordings per class:
-0    60
-1    60
-2    60
-```
-
-The labels are:
-
-- `0`: Healthy
-- `1`: Outer-race damage
-- `2`: Inner-race damage
-
-**4. Launch EdgeMentor**
-
-```powershell
-python -m streamlit run dashboard.py
-```
-
-Open the local Streamlit URL displayed in your terminal.
-
-The dashboard allows users to select bearing recordings, inspect vibration signals, evaluate prediction reliability, simulate sensor failures, and request NVIDIA Nemotron guidance for escalated predictions.
-
-**Note:** Raw bearing recordings and generated CSV files are excluded from GitHub. They must be prepared locally before running the application.
-
-Create a local `.env` file containing your Nebius API key:
+Create a local `.env` file in the project root:
 
 ```env
 NEBIUS_API_KEY=your_api_key_here
 ```
 
-Do not commit the `.env` file or share your API key.
+Use your own Nebius Token Factory API key. Never commit `.env` or expose the key in screenshots or logs.
 
-Launch the dashboard:
+**5. Launch the dashboard**
 
-```bash
+```powershell
 python -m streamlit run dashboard.py
 ```
 
-**Note:** The dataset and generated feature CSV are not included in the repository. Users must prepare these locally before running the analysis.
+Open the local URL displayed in the terminal.
+
+The dashboard supports bearing-recording analysis, prediction-reliability decisions, and the Nemotron investigation workflow. Verify each demonstration scenario before presenting it as a working feature.
+
+**6. Demo video**
+
+Add your public YouTube demonstration link here before submitting:
+
+`[YouTube demo link to be added]`
+
+Keep the demonstration under three minutes if required by the hackathon rules. Show the running application, the reliability decision, and Nemotron's tool-assisted investigation.
+
+**Reproducibility note:** The raw `.mat` recordings and generated CSV files are excluded from GitHub. Download the required dataset and generate the files locally before running the application.
+
 
 ## Future Work
 
